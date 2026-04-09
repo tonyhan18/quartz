@@ -17,21 +17,30 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy Preview to Cloudflare Pages
     steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v7
-        id: preview-build-artifact
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          name: preview-build
-          path: build
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: ${{ github.event.workflow_run.id }}
+          fetch-depth: 0
+          submodules: true  # Submodule을 함께 가져옵니다.
+          lfs: true
+      - name: Update Submodule
+        run: |
+          git submodule update --init --remote --recursive
+#      - name: Download build artifact
+#        uses: actions/download-artifact@v7
+#        id: preview-build-artifact
+#        with:
+#          name: preview-build
+#          path: build
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          run-id: ${{ github.event.workflow_run.id }}
 
-      - name: Deploy to Cloudflare Pages
-        uses: AdrianGonz97/refined-cf-pages-action@v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          projectName: quartz
-          deploymentName: Branch Preview
-          directory: ${{ steps.preview-build-artifact.outputs.download-path }}
+#     - name: Deploy to Cloudflare Pages
+#       uses: AdrianGonz97/refined-cf-pages-action@v1
+#       with:
+#         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+#         accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+#         githubToken: ${{ secrets.GITHUB_TOKEN }}
+#         projectName: quartz
+#         deploymentName: Branch Preview
+#         directory: ${{ steps.preview-build-artifact.outputs.download-path }}
