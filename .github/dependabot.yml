@@ -1,20 +1,24 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
+  - package-ecosystem: "gitsubmodule"
     directory: "/"
     schedule:
-      interval: "weekly"
-    groups:
-      production-dependencies:
-        applies-to: "version-updates"
-        patterns:
-          - "*"
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    groups:
-      ci-dependencies:
-        applies-to: "version-updates"
-        patterns:
-          - "*"
+      interval: "daily" # 매일 체크 (weekly로 변경 가능)
+#  - package-ecosystem: "npm"
+#    directory: "/"
+#    schedule:
+#      interval: "weekly"
+#    groups:
+#      production-dependencies:
+#        applies-to: "version-updates"
+#        patterns:
+#          - "*"
+#  - package-ecosystem: "github-actions"
+#    directory: "/"
+#    schedule:
+#      interval: "weekly"
+#    groups:
+#      ci-dependencies:
+#        applies-to: "version-updates"
+#        patterns:
+#          - "*"
